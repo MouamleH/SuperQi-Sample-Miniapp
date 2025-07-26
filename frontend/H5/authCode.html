@@ -1,0 +1,93 @@
+<html>
+
+<head>
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, overscroll-behavior=none">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>Sample Miniapp</title>
+    <script src="https://cdn.marmot-cloud.com/npm/hylid-bridge/2.10.0/index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body>
+    <div class="flex flex-col h-100vh w-full">
+        <div id="header" class="flex flex-row justify-between w-full items-center p-4 border-b border-gray-200">
+            <div class="w-full flex flex-row items-center justify-center">
+                <h1 class="text-2xl font-bold">Sample <span class="text-yellow-500">H5</span> Miniapp</h1>
+            </div>
+        </div>
+
+        <section id="content" class="flex-1 mt-4 flex flex-col items-start p-4">
+            <h2 class="text-2xl font-bold">Auth Code</h2>
+
+            <pre class="text-sm text-gray-500 bg-white rounded-md w-full p-4">
+my.getAuthCode({
+    scopes: ['auth_base', 'USER_ID'],
+    success: (res) => {
+        my.alert({
+            content: res.authCode,
+        });
+    },
+    fail: (res) => {
+        my.alert({
+            content: res.authErrorScopes,
+        });
+    },
+});
+            </pre>
+
+            <button onclick="getAuthCode()"
+                class="bg-yellow-400 text-white px-4 py-2 font-bold w-full rounded-md">my.getAuthCode()</button>
+
+            <h2 class="text-2xl font-bold p-4">Result</h2>
+            <pre id="result-code" class="text-sm text-gray-500 bg-white rounded-md w-full p-4">
+                </pre>
+
+            <button onclick="copyToClipboard()"
+                class="bg-yellow-400 text-white px-4 py-2 font-bold w-full rounded-md">Copy to Clipboard</button>
+
+        </section>
+    </div>
+</body>
+
+<script>
+    window.onload = () => { }
+
+    function getAuthCode() {
+        const resultCode = document.getElementById('result-code');
+        my.getAuthCode({
+            scopes: ['auth_base', 'USER_ID'],
+            success: (res) => {
+                my.alert({
+                    content: res.authCode,
+                });
+                resultCode.textContent = res.authCode;
+            },
+            fail: (res) => {
+                my.alert({
+                    content: res.authErrorScopes,
+                });
+                resultCode.textContent = res.authErrorScopes;
+            },
+        });
+    }
+
+    function copyToClipboard() {
+        const resultCode = document.getElementById('result-code');
+        my.setClipboard({
+            text: resultCode.textContent,
+            success: () => {
+                my.alert({
+                    content: `Copied "${resultCode.textContent}" to clipboard`,
+                });
+            },
+            fail: (res) => {
+                my.alert({
+                    content: res.errorMessage,
+                });
+            },
+        });
+    }
+</script>
+
+</html>
