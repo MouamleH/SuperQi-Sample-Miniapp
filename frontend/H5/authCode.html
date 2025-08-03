@@ -1,21 +1,16 @@
 <html>
 
 <head>
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, overscroll-behavior=none">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
     <title>Sample Miniapp</title>
-    <script src="https://cdn.marmot-cloud.com/npm/hylid-bridge/2.10.0/index.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="/common/main.js"></script>
+    <link rel="stylesheet" href="/common/style.css">
 </head>
 
 <body>
-    <div class="flex flex-col h-100vh w-full">
-        <div id="header" class="flex flex-row justify-between w-full items-center p-4 border-b border-gray-200">
-            <div class="w-full flex flex-row items-center justify-center">
-                <h1 class="text-2xl font-bold">Sample <span class="text-yellow-500">H5</span> Miniapp</h1>
-            </div>
-        </div>
+    <div class="flex flex-col w-full h-full min-h-full">
+        <miniapp-header></miniapp-header>
 
         <section id="content" class="flex-1 mt-4 flex flex-col items-start p-4">
             <h2 class="text-2xl font-bold">Auth Code</h2>
