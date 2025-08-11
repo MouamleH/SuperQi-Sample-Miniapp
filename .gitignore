@@ -255,3 +255,5 @@ modules.xml
 # End of https://www.toptal.com/developers/gitignore/api/goland,goland+all,goland+iml,go
 
 .idea
+res/
+.env

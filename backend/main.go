@@ -1,14 +1,15 @@
 package main
 
 import (
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/cors"
-	recover2 "github.com/gofiber/fiber/v2/middleware/recover"
-	"github.com/joho/godotenv"
 	"log"
 	"os"
 	"superQiMiniAppBackend/alipay"
 	"superQiMiniAppBackend/api"
+
+	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
+	recover2 "github.com/gofiber/fiber/v2/middleware/recover"
+	"github.com/joho/godotenv"
 )
 
 func main() {
@@ -30,7 +31,11 @@ func main() {
 	if len(port) == 0 {
 		port = "1999"
 	}
-	log.Fatal(app.Listen(":" + port))
+
+	log.Printf("Server starting on port %s", port)
+	if err := app.Listen(":" + port); err != nil {
+		log.Printf("Server error: %v", err)
+	}
 }
 
 func initWebServer() *fiber.App {

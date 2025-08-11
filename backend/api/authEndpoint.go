@@ -1,9 +1,12 @@
 package api
 
 import (
-	"github.com/gofiber/fiber/v2"
+	"encoding/json"
+	"log"
 	"superQiMiniAppBackend/alipay"
 	"superQiMiniAppBackend/jwe"
+
+	"github.com/gofiber/fiber/v2"
 )
 
 type authRequest struct {
@@ -22,10 +25,20 @@ func InitAuthEndpoint(group fiber.Router) {
 			return fiber.NewError(fiber.StatusBadRequest, err.Error())
 		}
 
+		tokenResponseJson, _ := json.MarshalIndent(tokenResponse, "", "  ")
+		log.Printf("Token response: %s\n\n", string(tokenResponseJson))
+
+		if tokenResponse.Result.ResultCode != "SUCCESS" {
+			return fiber.NewError(fiber.StatusBadRequest, "Invalid token response: "+tokenResponse.Result.ResultMessage)
+		}
+
 		info, err := alipay.Interface.InquiryUserInfo(tokenResponse.AccessToken)
 		if err != nil {
 			return fiber.NewError(fiber.StatusInternalServerError, err.Error())
 		}
+
+		infoJson, _ := json.MarshalIndent(info, "", "  ")
+		log.Printf("User info: %s\n\n", string(infoJson))
 
 		// Return a JWE to the MiniApp containing the required access token to be used in future calls to A+ backend
 		// The user id is just there for the ride :D
